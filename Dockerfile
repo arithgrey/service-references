@@ -1,15 +1,14 @@
-FROM python:3.10-alpine
+ARG PYTHON_VERSION=python:3.10.4-alpine
+FROM ${PYTHON_VERSION} 
 
+RUN apk add --no-cache build-base
 WORKDIR /app
-
-COPY Pipfile Pipfile.lock /app
-
-RUN pip install -U pipenv
-
-RUN pipenv install --system
-
+COPY requirements.txt /app/
+RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY . .
 
 EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Ejecuta el comando por defecto para iniciar el servidor en prod
+#CMD ["gunicorn", "--bind", "0.0.0.0:8000", "enid.wsgi:application"]
+CMD ["sh", "-c", "watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- gunicorn -b 0.0.0.0:8000 app.wsgi:application"]
