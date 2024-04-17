@@ -28,7 +28,14 @@ SECRET_KEY = config('SECRET_KEY', default='')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')
+
+CORS_ALLOW_HEADERS = [ 
+    'X-Store-Id',
+    'Content-Type',
+    'Authorization',
+    'Access-Control-Allow-Headers',
+]
 
 # Application definition
 
@@ -60,7 +67,6 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-        
     ],
 }
 
