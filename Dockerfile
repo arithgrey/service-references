@@ -7,8 +7,8 @@ COPY requirements.txt /app/
 RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY . .
 
-EXPOSE 8000
+EXPOSE 8080
 
 # Ejecuta el comando por defecto para iniciar el servidor en prod
 #CMD ["gunicorn", "--bind", "0.0.0.0:8000", "enid.wsgi:application"]
-CMD ["sh", "-c", "watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- gunicorn -b 0.0.0.0:8000 app.wsgi:application"]
+CMD ["sh", "-c", "watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- gunicorn -b 0.0.0.0:8080 app.wsgi:application"]
