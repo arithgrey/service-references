@@ -23,8 +23,9 @@ CORS_ALLOW_HEADERS = [
     'X-Store-Id',
     'Content-Type',
     'Authorization',
-    'Access-Control-Allow-Headers',
-]
+    'Access-Control-Allow-Headers'
+]   
+ 
 
 # Application definition
 

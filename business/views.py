@@ -11,11 +11,9 @@ class CustomPageNumberPagination(pagination.PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
-    
 class BusinessSlugImagesViewSet(viewsets.ModelViewSet):
     queryset = Business.objects.all()
     serializer_class = ImageSerializer
-    pagination_class = CustomPageNumberPagination
 
     @action(detail=True, methods=['GET'])    
     def images_by_slug(self, request, business_slug): 
@@ -27,12 +25,14 @@ class BusinessSlugImagesViewSet(viewsets.ModelViewSet):
         business = get_object_or_404(Business, slug=business_slug)
         images_qs = business.images.all().order_by('id')
         
-        page = self.paginate_queryset(images_qs)
+        # Use custom pagination class
+        paginator = CustomPageNumberPagination()
+        page = paginator.paginate_queryset(images_qs, request)
+        
         if page is not None:
             serializer = ImageSerializer(page, many=True)    
-            response = self.get_paginated_response(serializer.data)
+            response = paginator.get_paginated_response(serializer.data)
             cache.set(cache_key, response.data, timeout=60 * 60 * 240) 
-
             return response
 
         serializer = ImageSerializer(images_qs, many=True)
