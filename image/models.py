@@ -22,5 +22,5 @@ class Image(models.Model):
     def get_image_url(self):
         
         if settings.DOMAIN:                        
-            return f"{settings.DOMAIN}{self.image.url}/"
+            return f"{settings.DOMAIN}{self.image.url}"
 
