@@ -20,6 +20,7 @@ services:
       - .:/app
     networks:
       - backend
+      - enid_service_network
 
   redis:
     container_name: ${SERVICENAME}_redis 
@@ -54,3 +55,5 @@ volumes:
 networks:
   backend:
     driver: bridge
+  enid_service_network:
+    external: true
