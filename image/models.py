@@ -3,7 +3,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.conf import settings
 from autoslug import AutoSlugField
-
 class Image(models.Model):
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE,null=True, blank=True)
@@ -19,8 +18,4 @@ class Image(models.Model):
     def __str__(self):
         return self.title or f"Imagen {self.id}"
 
-    def get_image_url(self):
-        
-        if settings.DOMAIN:                        
-            return f"{settings.DOMAIN}{self.image.url}/"
 

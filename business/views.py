@@ -30,12 +30,14 @@ class BusinessSlugImagesViewSet(viewsets.ModelViewSet):
         page = paginator.paginate_queryset(images_qs, request)
         
         if page is not None:
-            serializer = ImageSerializer(page, many=True)    
+            # Pasar el contexto del request al serializador
+            serializer = ImageSerializer(page, many=True, context={'request': request})
             response = paginator.get_paginated_response(serializer.data)
             cache.set(cache_key, response.data, timeout=60 * 60 * 240) 
             return response
 
-        serializer = ImageSerializer(images_qs, many=True)
+        # También pasar el contexto aquí en caso de no paginación
+        serializer = ImageSerializer(images_qs, many=True, context={'request': request})
         response = Response(serializer.data)
         cache.set(cache_key, response.data, timeout=60 * 60 * 240)
         return response
