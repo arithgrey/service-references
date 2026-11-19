@@ -10,6 +10,8 @@ django-redis==5.4.0
 django-seed==0.3.1
 djangorestframework==3.15.1
 drf-yasg==1.21.7
+# drf-yasg importa pkg_resources, eliminado en setuptools>=82 (rompe el arranque al reconstruir la imagen)
+setuptools<81
 Faker==24.9.0
 filelock==3.13.4
 gunicorn==21.2.0
